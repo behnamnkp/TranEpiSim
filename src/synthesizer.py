@@ -63,6 +63,8 @@ def clean_schools(school,daycare):
     grade2age = {'PK':3,'KG':5,'UG':5, 'TK':5,'T1':6}
     grade2age.update({'{:02d}'.format(i+1):i+6 for i in range(12)})
 
+    print(school)
+
     school = school.assign(start_age = school.START_GRAD.map(grade2age))
     school = school.assign(end_age = school.END_GRADE.map(grade2age) +1)
     school.loc[school.END_GRADE=='PK','end_age'] = 6 #not 4
