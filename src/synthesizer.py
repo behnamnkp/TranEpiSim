@@ -13,7 +13,7 @@ from shapely.geometry import MultiLineString, LineString, Point, Polygon, Geomet
 # Visualization:
 import matplotlib as mpl
 mpl.rcParams.update(mpl.rcParamsDefault)
-%matplotlib inline
+
 
 # Graph analyses:
 from graph_tool.all import *
