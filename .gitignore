@@ -14,6 +14,14 @@
 *.docx
 *.DS_Store
 *.Rproj
+*.sbx
+*.prj
+*.xml
+*.shp
+*.sbn
+*.shx
+*.cpg
+*.dbf
 /data/.DS_Store
 
 # Output files from R CMD build
