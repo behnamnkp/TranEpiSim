@@ -10,7 +10,6 @@
 *.xls
 *.xlsx
 *.rds
-*.png
 *.docx
 *.DS_Store
 *.Rproj
