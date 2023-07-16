@@ -16,7 +16,7 @@ mpl.rcParams.update(mpl.rcParamsDefault)
 
 
 # Graph analyses:
-from graph_tool.all import *
+#from graph_tool.all import *
 import networkx as nx
 
 if not sys.warnoptions:
@@ -51,6 +51,7 @@ def wp_proba(x):
 
 # Main Methods
 def clean_schools(school,daycare):
+
     school = school[school.START_GRAD != 'N'] #Unknown
     """
     Codes for Grade Level
@@ -63,8 +64,6 @@ def clean_schools(school,daycare):
     grade2age = {'PK':3,'KG':5,'UG':5, 'TK':5,'T1':6}
     grade2age.update({'{:02d}'.format(i+1):i+6 for i in range(12)})
 
-    print(school)
-
     school = school.assign(start_age = school.START_GRAD.map(grade2age))
     school = school.assign(end_age = school.END_GRADE.map(grade2age) +1)
     school.loc[school.END_GRADE=='PK','end_age'] = 6 #not 4
@@ -76,7 +75,7 @@ def clean_schools(school,daycare):
     daycare = daycare.rename(columns={'POPULATION':'ENROLLMENT'})
     daycare = daycare[['start_age','end_age','ENROLLMENT','geometry']]
 
-    school = school.append(daycare, ignore_index=True)
+    school = pd.concat([school, daycare], ignore_index=True)
     school['current'] = 0
     return school
 
@@ -107,7 +106,7 @@ def create_households(tract, people):
     hh_cnt = get_hh_cnts(tract)
     hholds = pd.DataFrame()
     hholds['htype'] = np.repeat(hh_cnt.index, hh_cnt)
-    hholds = hholds[hholds.htype != 6].sort_values('htype', ascending=False).append(hholds[hholds.htype == 6])
+    hholds = pd.concat([hholds[hholds.htype != 6].sort_values('htype', ascending=False),hholds[hholds.htype == 6]])
     populate_households(tract, people, hholds)
 
 def get_hh_cnts(tract):
@@ -288,7 +287,7 @@ def gen_households(hh_type, people, mask):
     return members
 
 # Assign Workplaces
-def assign_workplaces(tract, people, od):
+def assign_workplaces(tract, people, od, dp):
     """
     if the destination tract of a worker is not in our DP dataset
     then we assign his wp to 'DTIDw', otherwise 'DTIDw#'
@@ -314,7 +313,13 @@ def assign_workplaces(tract, people, od):
 #shapely geometries are not hashable, here is my hash function to check the duplicates
 def hash_geom(x):
     if x.geom_type == 'MultiLineString':
-        return tuple((round(lat,6),round(lon,6)) for s in x for lat,lon in s.coords[:])
+        a = []
+        for line_string in x.geoms:
+            for point in line_string.coords:
+                lat, lon = point
+                a.append((round(lat, 6), round(lon, 6)))
+        return tuple(a)
+        #return tuple((round(lat,6),round(lon,6)) for s in x for lat,lon in s.coords[:])
     else:
         return tuple((round(lat,6),round(lon,6)) for lat,lon in x.coords[:])
 
@@ -345,8 +350,8 @@ def create_spaces(tract, hcnt, od, road, HD=50, WD=20, avg_wp = 10):
     #workplaces on S1400|S1200
     swps = wrd.apply(lambda x: pd.Series([x.interpolate(seg) for seg in np.arange(x.length,WD)]))
     #workplaces on the joints of S1400|S1740
-    rwps = hrd.apply(lambda x: Point(x.coords[0]) if type(x) != MultiLineString else Point(x[0].coords[0]))
-    wps = rwps.append(swps.unstack().dropna().reset_index(drop=True))
+    rwps = hrd.apply(lambda x: Point(x.coords[0]) if not isinstance(x, MultiLineString) else Point(x.geoms[0].coords[0]))
+    wps = pd.concat([rwps, swps.unstack().dropna().reset_index(drop=True)])
     wps = wps.sample(n=tract.WP_CNT,replace=True).reset_index(drop=True)
     wps.index = tract.name + 'w' + wps.index.to_series().astype(str)
     return gpd.GeoSeries(houses), gpd.GeoSeries(wps)
@@ -543,14 +548,14 @@ def assign_students_to_schools(tract, people, school, buffer=10000):
     people.loc[kids, 'wp'] = people[kids].apply(assign_school, args=(sch_pot, school), axis=1)
 
 # Synthesize
-def synthesize(tract, od, road, school, errors, population, wps):
+def synthesize(tract, od, road, school, errors, population, wps, dp):
     start_time = timeit.default_timer()
     print(tract.name,'started...',end=' ')
     people = create_individuals(tract)
     # I added this if to eliminate tracts with zero population
     if people.empty != True:
         create_households(tract,people)
-        assign_workplaces(tract,people,od)
+        assign_workplaces(tract,people,od, dp)
         #create spaces
         houses, wp = create_spaces(tract, people.hhold.nunique(), od, road)
         #assign households to houses
