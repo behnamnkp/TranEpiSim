@@ -1,9 +1,6 @@
-# Behavioral Interventions of Respiratory Diseases
+# TranEpiSim: Urban Transportation Disease Spread Simulator
 
-A pipeline to study behavioral interventions of respiratory diseases such as COVID-19 and Seasonal Influenza. We use 
-individual responses to a large scale longitudinal survey and cellphone visits to places of interests to measure and 
-study human behavior variation, and it's impact on respiratory diseases. This project is part of a project at 
-[Bharti lab](https://www.humidlab.com/) (PI: [Dr. Nita Bharti](https://www.huck.psu.edu/people/nita-bharti)).
+Transportation systems can contribute to the spread of diseases by introducing pathogens to new geographic areas, by accelerating their diffusion, or by becoming a disease vector. In many respects, this mirrors the transmission of vector-borne diseases by living vectors such as mosquitoes. The latter role manifests itself within moving vehicles or in facilities where individuals share space with others, thus leading to new contacts that may facilitate disease transmission. TranEpiSim is an agent-based simulator built on top of a synthetic human contact network for Cook County, IL. The current version focuses on a single mode of transportation, micromobility systems, and introduces an agent-based approach that explicitly models a viral disease transmission through the use of micromobility vehicles in an urban area.  
 
 ## Table of Contents
 
@@ -20,65 +17,52 @@ study human behavior variation, and it's impact on respiratory diseases. This pr
 
 ## Technologies Used
 
-- Python 3.9
-- R version 4.2.3 (2023-03-15 ucrt)
+- Python 3.10
+- graph-tool & networkx
+- geopandas & Shapely
+- High Performance Computing (HPC)
 
 ## Features
 
-- Creates time series of human behavior in response to behavioral interventions during COVID-19
-- Behaviors include, visits to places of interest, facemasking, maintaining six feet distance, gatherings of different sizes, personal hygiene, going to bar and restaurants, working and attending classes remotely, etc.
-- Behaviors are collected separately for two cohorts (student and non-students) at Centre County, PA.
-- Pipeline reads, preprocesses, and mines the raw data sets and applies statistical time series analysis and modeling.
+- Transmission of viral diseases through fomites on miromobility vehicles and through close proximity in a large scale synthetic human contact network.
+- Featured with a novel disease transmission model called SIR-SC.
+- Built on top of graph-tool suited for fast, large-scale network analysis.
 
 ## Getting Started
 
-To get started with the Behavioral-Interventions repository, follow these steps:
+To get started with TranEpiSim, follow these steps:
 
 1. Clone the repository: `git clone https://github.com/behnamnkp/Behavioral-Interventions.git`
-2. Organize directories as below
-3. Make sure you use the right versions of Python and R
+2. Organize directories as represented below
+3. Make sure you use the right versions of Python
 4. Install the required dependencies in `requirements.txt`
-5. Configure the flags and paths in the `.config.json` file. Here are some of the flags you need to make sure set to 1 when running the code for the first time. You can set them to 0 to save run time after the first run.
-   - flags = {"READ_SAFEGRAPH_PATTERNS": 0, "PROCESS_SAFEGRAPH_PATTERNS": 1, "READ_SOCIAL_DISTANCING": 0, "RESAMPLE_LAYERING": 0, "FILL_SG_MISSING": 0, "START_WEEK": "2015-07-03", "END_WEEK": "2022-12-25"}
+5. Configure the flags and paths in the `.config.json` file. 
+
 ## Usage
-Once you organize files and directories, you will be able to run the code. Code creates visualizations of uptake, persistence, and waning of behavioral interventions ove time, and conducts time series regression analysis.
+Once you organize files and directories, you will be able to run the code to create the synthetic population and human contact network for Cook County, read micromobility trips, and calculate the dynamics of disease by setting up different scenarios.
 
 ## Examples
-
-Here is an example of how you can set up the flags and paths, input, and process data:
+Here is an example of how you can create the synthetic population 
 
 ## Folder structure
 ```
-📁 BI
-├── 📁 documents
-├── 📁 temp
-├── 📁 codes
-│   ├── 📁 old
-│   ├── 🐍 main.py
-│   ├── 📊 main.R
-│   ├── 🐍 bi.py
-│   ├── 🐍 read_data.py
-│   ├── 🐍 plot.py
-│   ├── 🐍 resample_data.py
-│   ├── 📊 functions.R
-│   ├── 📊 epidemic_weeks.R
+📁 TranEpiSim
+├── 📁 docs
+├── 📁 data
+│   ├── 📁 cbp
+│   ├── 📁 dp
+│   ├── 📁 education
+│   ├── 📁 od
+│   ├── 📁 road
 ├── 📁 src
-│   ├── 📁 d4a
-│   ├── 📁 census
-│   ├── 📁 safegraph
-│   ├── 📁 psu_calendar
-│   ├── 📁 environment
-│   ├── 📁 vaccination
-│   ├── 📁 disease_incidence
-│   ├── 📁 traffic_cameras
-│   ├── 📁 safegraph_home_panel_summaries
-│   ├── 📁 safegraph_social_distancing
-├── 📁 output             
-│   ├── 📁 exploratory_analysis   
-│   ├── 📁 timeseries_regression      
-│   └── 📁 reports  
+│   ├── 🐍 main.py
+│   ├── 🐍 synthesizer.py
+│   ├── 📝 synthetic_human_contact_network.ipynb
+├── 📁 output
+├── 📁 plot             
 └── 📄 config.json
 └── 📄 README.md
+└── 📄 Requirements.txt
 └── ...
 ```
 
@@ -104,8 +88,7 @@ This project is not licensed yet.
 
 ## Acknowledgments
 
-- This project was funded by [Data4Action project](https://covid19.ssri.psu.edu/data4action#:~:text=The%20Data%204%20Action%20Project,Clinical%20and%20Translational%20Science%20Institute.) and National Science Foundation (NSF)
-- COVID-19 and Seasonal Influenza cases and vaccination were provided by PSU Health Services and Pennsylvania Department of Health.
+- 
 
 ## Contact
 
