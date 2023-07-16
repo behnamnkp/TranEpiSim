@@ -4,6 +4,7 @@ import sys
 import numpy as np
 import pandas as pd
 import timeit
+import pickle
 from itertools import chain
 
 # Spatial:
@@ -13,6 +14,9 @@ from shapely.geometry import MultiLineString, LineString, Point, Polygon, Geomet
 # Visualization:
 import matplotlib as mpl
 import synthesizer as syn
+
+# Graph analysis
+import networkx as nx
 
 os.chdir('H:/My Drive/TranEpiSim/')
 # 1. Road file
@@ -48,3 +52,27 @@ wps = []
 
 dp.apply(lambda t: syn.synthesize(t,od,road,school,errors, population, wps, dp),axis=1)
 
+# Save the results
+with open('output/errors.pkl', 'wb') as f:
+    pickle.dump(errors, f)
+with open('output/population.pkl', 'wb') as f:
+    pickle.dump(population, f)
+with open('output/wps.pkl', 'wb') as f:
+    pickle.dump(wps, f)
+
+# Read synthesized population
+with open('output/population.pkl','rb') as f:
+    people = pd.concat(pickle.load(f))
+
+# Create and save the networks
+g = syn.create_networks(people,k=31,p=.3)
+nx.write_gml(g,'output/contact_network.gml')
+
+# Create networks by contact types
+for etype in ['hhold','work','school']:
+    sg = nx.Graph([(u,v) for u,v,d in g.edges(data=True) if d['etype']==etype])
+    nx.write_gml(sg, f'output/{etype}_contact_network.gml')
+
+# Create a network for work-school contacts
+work_school = nx.Graph([(u,v) for u,v,d in g.edges(data=True) if d['etype'] in ['work','school']])
+nx.write_gml(work_school,'work_school_contact_network.gml')
