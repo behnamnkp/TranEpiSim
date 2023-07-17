@@ -10,7 +10,6 @@
 *.xls
 *.xlsx
 *.rds
-*.docx
 *.DS_Store
 *.Rproj
 *.sbx
@@ -22,6 +21,3 @@
 *.cpg
 *.dbf
 /data/.DS_Store
-
-# Output files from R CMD build
-*/old/
