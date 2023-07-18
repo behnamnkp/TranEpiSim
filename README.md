@@ -37,7 +37,7 @@ Transportation systems can contribute to the spread of diseases by introducing p
 
 To get started with TranEpiSim, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/behnamnkp/Behavioral-Interventions.git`
+1. Clone the repository: `git clone https://github.com/behnamnkp/TranEpiSim.git`
 2. Organize directories as represented below
 3. Make sure you use the right versions of Python
 4. Install the required dependencies in `requirements.txt`
@@ -50,7 +50,10 @@ To get started with TranEpiSim, follow these steps:
 Once you organize files and directories, you will be able to run the code to create the synthetic population and human contact network for Cook County, read micromobility trips, and calculate the dynamics of disease by setting up different scenarios.
 
 ## Examples
-Here is an example of how you can create the synthetic population 
+Please see the following notebooks for Cook County synthetic contact network, miromobility, and disease transmission.
+   1. ![Create synthetic human contact network](src/synthetic_human_contact_network.ipynb)
+   2. Micromobility and disease spread in population
+
 
 ## Folder structure
 ```
@@ -96,11 +99,11 @@ This project is not licensed yet.
 
 ## Acknowledgments
 
-- 
+The code for constructing the network was obtained from Talha Oz's Jupyter notebook repository, which provides detailed instructions and can be accessed here. You can read their paper here.
 
 ## Contact
 
-For any questions, suggestions, or feedback, please contact us:
+For any questions, suggestions, or feedback, please contact me:
 
 - Email: bzn5190@psu.edu
 - Twitter: @behnam_nkp
