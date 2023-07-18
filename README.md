@@ -99,7 +99,7 @@ This project is not licensed yet.
 
 ## Acknowledgments
 
-The code for constructing the network was obtained from Talha Oz's Jupyter notebook repository, which provides detailed instructions and can be accessed here. You can read their paper here.
+The code for constructing the network was obtained from Talha Oz's Jupyter notebook repository and adapted for the application for disease systems. You can find his repository with wonderful instructions [**here**](https://nbviewer.org/gist/oztalha/a1c167f3879c5b95f721acef791c8111/Population%20Synthesis%20for%20ABM.ipynb). You can also find their paper [**here**](https://dl.acm.org/doi/abs/10.1145/3145574.3145593?casa_token=z6J9RUlCP3UAAAAA:7Ie0L7W9_bmIsaR9JHfutQgyYJ9aIj0dC2ZnuGhQaF4x46QOczVq1FwfH7dsDloAcwDCH26pjOM).
 
 ## Contact
 
