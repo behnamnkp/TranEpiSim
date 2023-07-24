@@ -66,7 +66,9 @@ Please see the following notebooks for Cook County synthetic contact network, mi
 │   ├── 📁 od
 │   ├── 📁 road
 ├── 📁 src
-│   ├── 🐍 main.py
+│   ├── 🐍 tran.py
+│   ├── 🐍 epi.py
+│   ├── 🐍 sim.py
 │   ├── 🐍 synthesizer.py
 │   ├── 📝 synthetic_human_contact_network.ipynb
 ├── 📁 output
