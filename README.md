@@ -1,4 +1,4 @@
-# TranEpiSim: Urban Transportation Disease Spread Simulator
+# TranEpiSim: Urban Transportation Epidemic Simulator
 
 Transportation systems can contribute to the spread of diseases by introducing pathogens to new geographic areas, by accelerating their diffusion, or by becoming a disease vector. In many respects, this mirrors the transmission of vector-borne diseases by living vectors such as mosquitoes. The latter role manifests itself within moving vehicles or in facilities where individuals share space with others, thus leading to new contacts that may facilitate disease transmission. TranEpiSim is an agent-based simulator built on top of a synthetic human contact network for Cook County, IL. The current version focuses on a single mode of transportation, micromobility systems, and introduces an agent-based approach that explicitly models a viral disease transmission through the use of micromobility vehicles in an urban area.  
 
