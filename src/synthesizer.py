@@ -5,16 +5,12 @@ import pandas as pd
 import timeit
 from itertools import chain
 from sklearn.preprocessing import normalize
-
 # Spatial:
 import geopandas as gpd
 from shapely.geometry import MultiLineString, LineString, Point, Polygon, GeometryCollection
-
 # Visualization:
 import matplotlib as mpl
 mpl.rcParams.update(mpl.rcParamsDefault)
-
-
 # Graph analyses:
 #from graph_tool.all import *
 import networkx as nx

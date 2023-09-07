@@ -20,40 +20,6 @@ if not sys.warnoptions:
     import warnings
     warnings.simplefilter("ignore")
 
-def preprocess_population(people, dp, wps2, school2, Divvy_Stations_Thiessen):
-
-    people = gpd.sjoin(people, dp.loc[:, ['GEOID10', 'geometry']], how="left", op='within')
-    people.drop('index_right', inplace=True, axis=1)
-    people.rename({'GEOID10': 'GEOID10_hhold'}, inplace=True, axis=1)
-
-    people = people.merge(wps2.loc[:, ['GEOID10_wps', 'geometry_wps']], left_on=people['wp'], right_on=wps2.index,
-                        how='left')
-    people.drop('key_0', inplace=True, axis=1)
-
-    people = people.merge(school2.loc[:, ['GEOID10_sch', 'geometry_sch']], left_on=people['wp'], right_on=school2.index,
-                        how='left')
-    people.drop('key_0', axis=1, inplace=True)
-
-    people['geometry_outside'] = people['geometry_wps']
-    mask = people['geometry_outside'].isnull()
-    people.loc[mask, 'geometry_outside'] = people.loc[mask, 'geometry_sch']
-    mask = people['geometry_outside'].isnull()
-    people.loc[mask, 'geometry_outside'] = people.loc[mask, 'geometry']
-
-    people = gpd.sjoin(people, Divvy_Stations_Thiessen.loc[:, ['ID', 'geometry']], how="left", op='within')
-    people.drop('index_right', inplace=True, axis=1)
-    people.rename({'ID': 'station_hhold'}, inplace=True, axis=1)
-    people = people.drop_duplicates('index')
-
-    people.rename({'geometry': 'geometry_hhold', 'geometry_outside': 'geometry'}, inplace=True, axis=1)
-    people = gpd.sjoin(people, Divvy_Stations_Thiessen.loc[:, ['ID', 'geometry']], how="left", op='within')
-    people.drop('index_right', inplace=True, axis=1)
-    people.rename({'ID': 'station_outside'}, inplace=True, axis=1)
-    people.rename({'geometry': 'geometry_outside', 'geometry_hhold': 'geometry'}, inplace=True, axis=1)
-    people = people.drop_duplicates('index')
-
-    return people
-
 def spread(cores, G, state, beta, q):
 
     new = np.array([])
