@@ -29,6 +29,7 @@ def main ():
     # Contact network
     G = utils.read_network(people, dp, wps, schools, Divvy_Stations_Thiessen)
 
+
     # Micromobility trips
     divvy_data = utils.read_mic_trips()
 
