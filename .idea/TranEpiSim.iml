@@ -7,8 +7,9 @@
       <sourceFolder url="file://$MODULE_DIR$/output" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/plot" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/replicate_manuscript_figures" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.10 (TranEpiSim2)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="BI" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
