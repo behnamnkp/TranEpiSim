@@ -45,7 +45,8 @@ To get started with TranEpiSim, follow these steps:
 5. Configure the flags and paths in the `.config.json` file. 
 6. I have developed multiple notebooks that provide detailed, step-by-step instructions to make it easier for users to utilize the repository.
    1. [Create synthetic human contact network](src/synthetic_human_contact_network.ipynb)
-   2. Micromobility and disease spread in population
+   2. [Replicate figures from manuscript](src/figure_replications.ipynb)
+   3. Micromobility and disease spread in population(coming soon!)
 
 ## Usage
 Once you organize files and directories, you will be able to run the code to create the synthetic population and human contact network for Cook County, read micromobility trips, and calculate the dynamics of disease by setting up different scenarios.
