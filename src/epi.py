@@ -1,21 +1,12 @@
-# General:
 import sys
 import numpy as np
 import pandas as pd
 import datetime as dt
 import ast
-
-# Spatial:
-import geopandas as gpd
-
-# Visualization:
 import matplotlib as mpl
 mpl.rcParams.update(mpl.rcParamsDefault)
-
-# Graph analyses:
 from graph_tool.all import graph_tool as gt
 from graph_tool.all import *
-
 if not sys.warnoptions:
     import warnings
     warnings.simplefilter("ignore")
@@ -77,36 +68,6 @@ def trip_partitioning(NPROCESSOR, trips):
     cores = cores[cores['trips']!=0]
 
     return cores
-
-def assign_cyclist (data, people, current_station, q):
-    people_pot = people
-    people_pot = people_pot.rename({'index': 'people_id'}, axis=1)
-    aux = pd.DataFrame(columns=['trip_id', 'cyclist'])
-    aux2 = data['start_station_id'].unique()
-    if people_pot.shape[0] != 0:
-        for item in aux2:
-            mask = data['start_station_id'] == item
-            counts = mask[mask == True].shape[0]
-            cyclists = people_pot[people_pot[current_station] == item]
-            if cyclists.shape[0] != 0 and cyclists.shape[0] >= counts:
-                cyclist_sample = cyclists.sample(n=counts)
-            elif cyclists.shape[0] != 0 and cyclists.shape[0] < counts:
-                cyclist_sample1 = cyclists.sample(n=cyclists.shape[0])
-                cyclist_sample2 = people_pot.sample(n=counts - cyclists.shape[0])
-                cyclist_sample = pd.concat([cyclist_sample1, cyclist_sample2], axis=0)
-            else:
-                cyclist_sample = people_pot.sample(n=counts)
-            aux3 = data.loc[mask, 'trip_id'].reset_index()['trip_id']
-            aux4 = cyclist_sample.reset_index()['index']
-            aux5 = pd.concat([aux3, aux4], axis=1)
-            aux5 = aux5.rename({'index': 'cyclist'}, axis=1)
-            aux = pd.concat([aux, aux5], axis=0)
-
-        q.put(aux)
-
-    else:
-        print('*************** these stations have no population! ******************', data[:, 2])
-        print(people_pot.shape)
 
 def bike_to_human_infection(c, beta):
     contaminated_bikes = c[c['health_status_bikes']==1]['count']

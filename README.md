@@ -52,25 +52,32 @@ Once you organize files and directories, you will be able to run the code to cre
 ## Examples
 Please see the following notebooks for Cook County synthetic contact network, miromobility, and disease transmission.
    1. [Create synthetic human contact network](src/synthetic_human_contact_network.ipynb)
-   2. Micromobility and disease spread in population
-
+   2. [Replicate figures from manuscript](src/figure_replications.ipynb)
+   3. Micromobility and disease spread in population(coming soon!)
 
 ## Folder structure
 ```
 📁 TranEpiSim
 ├── 📁 docs
 ├── 📁 data
+│   ├── 📁 cbd
 │   ├── 📁 cbp
 │   ├── 📁 dp
 │   ├── 📁 education
+│   ├── 📁 mic_stations
+│   ├── 📁 mic_trips
 │   ├── 📁 od
+│   ├── 📁 replicate_manuscript_figures
 │   ├── 📁 road
 ├── 📁 src
 │   ├── 🐍 tran.py
 │   ├── 🐍 epi.py
 │   ├── 🐍 sim.py
 │   ├── 🐍 synthesizer.py
+│   ├── 🐍 main.py
+│   ├── 🐍 utils.py
 │   ├── 📝 synthetic_human_contact_network.ipynb
+│   ├── 📝 figure_replications.ipynb
 ├── 📁 output
 ├── 📁 plot             
 └── 📄 config.json
@@ -107,5 +114,5 @@ The code for constructing the network was obtained from Talha Oz's Jupyter noteb
 
 For any questions, suggestions, or feedback, please contact me:
 
-- Email: bzn5190@psu.edu
-- Twitter: @behnam_nkp
+- Email: 
+- Twitter: 

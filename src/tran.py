@@ -1,18 +1,12 @@
-# General:
 import sys
 from multiprocessing import *
 import numpy as np
 import pandas as pd
 import datetime as dt
 import ast
-
-# Visualization:
 import matplotlib as mpl
 mpl.rcParams.update(mpl.rcParamsDefault)
-
-# Graph analyses:
 from graph_tool.all import *
-
 if not sys.warnoptions:
     import warnings
     warnings.simplefilter("ignore")
@@ -174,3 +168,59 @@ def choose_bikes(bikes, start_time, divvy_data, INITIAL_CONTAMINATED_BIKES, SURV
     contaminated_bikes['end_of_contamination'] = start_time + deltatime
 
     return contaminated_bikes
+
+def trip_partitioning(NPROCESSOR, trips):
+    cores = pd.DataFrame(index = range(NPROCESSOR), columns=['stations', 'trips'])
+    freq = trips.groupby('start_station_id').count()['trip_id'].sort_values(ascending=False)
+    cores['stations'] = '[]'
+    cores['trips'] = 0
+    core = 0
+
+    while freq.shape[0] !=0:
+        if core != NPROCESSOR:
+            cores.loc[core, 'stations'] = str(ast.literal_eval(cores.loc[core, 'stations']) + [freq.index[0]])
+            # str(cores.loc[core, 'stations']) + ', ' + str(freq.index[0])
+            cores.loc[core, 'trips'] = cores.loc[core, 'trips'] + freq.iloc[0]
+            freq = freq.drop(freq.index[0], axis=0)
+            core+=1
+        else:
+            core = 0
+            freq = freq.sort_values(ascending=True)
+            cores.loc[core, 'stations'] = str(ast.literal_eval(cores.loc[core, 'stations']) + [freq.index[0]])
+            cores.loc[core, 'trips'] = cores.loc[core, 'trips'] + freq.iloc[0]
+            freq = freq.drop(freq.index[0], axis=0)
+            core+=1
+
+    cores = cores[cores['trips']!=0]
+
+    return cores
+
+def assign_cyclist (data, people, current_station, q):
+    people_pot = people
+    people_pot = people_pot.rename({'index': 'people_id'}, axis=1)
+    aux = pd.DataFrame(columns=['trip_id', 'cyclist'])
+    aux2 = data['start_station_id'].unique()
+    if people_pot.shape[0] != 0:
+        for item in aux2:
+            mask = data['start_station_id'] == item
+            counts = mask[mask == True].shape[0]
+            cyclists = people_pot[people_pot[current_station] == item]
+            if cyclists.shape[0] != 0 and cyclists.shape[0] >= counts:
+                cyclist_sample = cyclists.sample(n=counts)
+            elif cyclists.shape[0] != 0 and cyclists.shape[0] < counts:
+                cyclist_sample1 = cyclists.sample(n=cyclists.shape[0])
+                cyclist_sample2 = people_pot.sample(n=counts - cyclists.shape[0])
+                cyclist_sample = pd.concat([cyclist_sample1, cyclist_sample2], axis=0)
+            else:
+                cyclist_sample = people_pot.sample(n=counts)
+            aux3 = data.loc[mask, 'trip_id'].reset_index()['trip_id']
+            aux4 = cyclist_sample.reset_index()['index']
+            aux5 = pd.concat([aux3, aux4], axis=1)
+            aux5 = aux5.rename({'index': 'cyclist'}, axis=1)
+            aux = pd.concat([aux, aux5], axis=0)
+
+        q.put(aux)
+
+    else:
+        print('*** these stations have no population around! ***', data[:, 2])
+        print(people_pot.shape)

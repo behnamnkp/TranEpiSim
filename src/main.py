@@ -1,37 +1,19 @@
 import sim
 import utils
+import json
 
 def main ():
 
+    # Load the JSON configuration file
+    with open('config.json') as config_file:
+        config = json.load(config_file)
+
     # Create synthetic population
-    sim.create_population()
+    utils.create_population(config)
     # Create contact network
-    sim.create_network()
-
-    print("Reading data...")
-    # Census tracts
-    dp = utils.read_census()
-    # Central business district
-    cbd = utils.read_cbd()
-    # Workplaces
-    wps = utils.read_workplaces(dp)
-    # Roads
-    road = utils.read_roads()
-
-    # Schools
-    schools = utils.read_schools(dp)
-    # Micromobility stations
-    Divvy_Stations, Divvy_Stations_Thiessen = utils.read_mic_stations(dp, cbd)
-
-    # Synthetic population
-    people = utils.read_syn_pop()
-
-    # Contact network
-    G = utils.read_network(people, dp, wps, schools, Divvy_Stations_Thiessen)
-
-
-    # Micromobility trips
-    divvy_data = utils.read_mic_trips()
+    utils.create_network(config)
+    # Example simulation
+    sim.simulate(config)
 
 if __name__ == '__main__':
     main()
