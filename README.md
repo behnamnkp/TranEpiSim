@@ -37,7 +37,8 @@ Transportation systems can contribute to the spread of diseases by introducing p
 
 To get started with TranEpiSim, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/behnamnkp/TranEpiSim.git`
+1. Download data from https://doi.org/10.5281/zenodo.8327873
+2. Clone the repository: `git clone https://github.com/behnamnkp/TranEpiSim.git`
 2. Organize directories as represented below
 3. Make sure you use the right versions of Python
 4. Install the required dependencies in `requirements.txt`
