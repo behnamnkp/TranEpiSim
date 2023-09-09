@@ -46,6 +46,7 @@ To get started with TranEpiSim, follow these steps:
 6. I have developed multiple notebooks that provide detailed, step-by-step instructions to make it easier for users to utilize the repository.
    1. [Create synthetic human contact network](src/synthetic_human_contact_network.ipynb)
    2. [Replicate figures from manuscript](src/figure_replications.ipynb)
+      - Download the Notebook, and open it in Google Colab to replicate the figures
    3. Micromobility and disease spread in population(coming soon!)
 
 ## Usage
