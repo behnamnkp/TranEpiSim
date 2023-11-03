@@ -26,7 +26,8 @@ Transportation systems can contribute to the spread of diseases by introducing p
 
 ## Features
 
-- Transmission of viral diseases through fomites on miromobility vehicles and through close proximity in a large scale synthetic human contact network.
+- Realistic mega-scale synthetic human contact network using census, road network, and pois (schools and bicycle stations).
+- Transmission of viral diseases through fomites on miromobility vehicles and through close proximity in a synthetic population. 
 - Using actual individual micromobility trips
 - Featured with a novel disease transmission model called SIR-SC.
 - Built on top of graph-tool suited for fast, large-scale network analysis.
